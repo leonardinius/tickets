@@ -1,0 +1,22 @@
+language: node_js
+node_js: "node"
+
+install:
+  - yarn install
+
+script:
+  - env AUTH_TOKEN=${AUTH_TOKEN} python ./refresh-ids.py
+  - yarn run build
+  - sed -i -r 's/(src|href)=\//\1=/g' dist/index.html
+
+cache: yarn
+
+deploy:
+  provider: pages
+  local-dir: dist
+  target-branch: gh-pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    branch: master
