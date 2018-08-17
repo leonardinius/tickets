@@ -15,7 +15,12 @@
 import { QrcodeReader } from 'vue-qrcode-reader'
 import InitHandler from '@/mixins/InitHandler'
 
-import tickets from '@/data/tickets.json'
+import exportIds from '@/data/tickets.json'
+
+const exportIdsDict = {}
+exportIds.forEach(el => {
+  exportIdsDict[el] = 1
+});
 
 const symbols = {
   info: 'Ⓘ',
@@ -67,9 +72,9 @@ export default {
   methods: {
     onDecode (content) {
       const ticketId = content
-      const docid = tickets[ticketId]
+      const present = exportIdsDict[ticketId]
 
-      if(docid){
+      if(present){
         // you can use this.paused=true
         // to stop scanner from decoding the image
         this.content = `${symbols.check} Valid ticket ${ticketId.split('-')[0]} ...`

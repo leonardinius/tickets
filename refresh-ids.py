@@ -10,13 +10,13 @@ def main():
     auth_token = os.environ['AUTH_TOKEN']
     url = 'https://devternity-22e74.firebaseio.com/applications.json?auth=%s' % auth_token
 
-    ticketsIds = dict()
+    ticketsIds = []
     data = requests.get(url).json()
     for docid, doc in data.items():
         if doc['product'] != 'DT_RIX_18':
             continue
         for ticket in doc['tickets']:
-            ticketsIds[ticket['id']] = docid
+            ticketsIds.append(ticket['id'])
 
     with open('./src/data/tickets.json', 'w') as w:
         w.write(json.dumps(ticketsIds, indent=True))
