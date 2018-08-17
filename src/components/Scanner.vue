@@ -1,13 +1,13 @@
 <template>
   <QrcodeReader
-    :paused="paused"
-    :track="repaintLocation"
-    @decode="onDecode"
-    @init="onInit">
+    :paused='paused'
+    :track='repaintLocation'
+    @decode='onDecode'
+    @init='onInit'>
 
-    <div class="content">{{ content }}</div>
+    <div class='content'>{{ content }}</div>
 
-    <LoadingIndicator v-show="loading" />
+    <LoadingIndicator v-show='loading' />
   </QrcodeReader>
 </template>
 
@@ -15,12 +15,7 @@
 import { QrcodeReader } from 'vue-qrcode-reader'
 import InitHandler from '@/mixins/InitHandler'
 
-import exportIds from '@/data/tickets.json'
-
-const exportIdsDict = {}
-exportIds.forEach(el => {
-  exportIdsDict[el] = 1
-});
+import databaseDumpTicketIds from '@/data/tickets.json'
 
 const symbols = {
   info: 'Ⓘ',
@@ -29,31 +24,48 @@ const symbols = {
   cancel : '✘',
 }
 
-const beep = () => {
-  const ctxClass = window.audioContext
+const audioContext = new (window.audioContext
     || window.AudioContext
     || window.AudioContext
-    || window.webkitAudioContext
+    || window.webkitAudioContext)()
 
-  const ctx = new ctxClass()
+const beep = (duration, type = 0, callback = ()=>{}) => {
+  const types = [
+    'sine', 'square', 'sawtooth', 'triangle'
+  ]
 
-  const play = (duration, type = 0, callback = ()=>{}) => {
-      // Only 0-4 are valid types.
-      type = (type % 5) || 0
-      var osc = ctx.createOscillator()
-      osc.type = type
-      osc.connect(ctx.destination)
-      if (osc.noteOn) osc.noteOn(0) // old browsers
-      if (osc.start) osc.start() // new browsers
-      setTimeout(function () {
-          if (osc.noteOff) osc.noteOff(0) // old browsers
-          if (osc.stop) osc.stop() // new browsers
-          callback()
-      }, duration);
-  }
+  type = (type % types.length) || 0
 
-  play(100, 4)
+  const osc = audioContext.createOscillator()
+  osc.type = types[type]
+  osc.connect(audioContext.destination)
+  if (osc.noteOn) osc.noteOn(0) // old browsers
+  if (osc.start) osc.start() // new browsers
+  osc.onended = callback
+  setTimeout(function () {
+      if (osc.noteOff) osc.noteOff(0) // old browsers
+      if (osc.stop) osc.stop() // new browsers
+      callback()
+  }, duration);
 }
+
+const makeValidTicketBeep = () => {
+  beep(60, 1)
+  //beep(50, 1, () => beep(5, 0))
+}
+
+const makeInvalidTicketBeep = () => {
+  beep(100, 2)
+}
+
+const dumpTicketsData = Object.freeze((() => {
+  const exportIdsDict = {}
+  databaseDumpTicketIds.forEach(el => {
+    exportIdsDict[el] = true
+  })
+
+  return exportIdsDict
+})())
 
 export default {
   name: 'Scanner',
@@ -72,15 +84,16 @@ export default {
   methods: {
     onDecode (content) {
       const ticketId = content
-      const present = exportIdsDict[ticketId]
+      const present = dumpTicketsData[ticketId]
 
       if(present){
+        makeValidTicketBeep()
         // you can use this.paused=true
         // to stop scanner from decoding the image
         this.content = `${symbols.check} Valid ticket ${ticketId.split('-')[0]} ...`
         // you can do much more, e.g. fetch & display more Ⓘ data etc...
-        beep()
       } else {
+        makeInvalidTicketBeep()
         this.content = `${symbols.cancel} Invalid ticket...`
       }
 
