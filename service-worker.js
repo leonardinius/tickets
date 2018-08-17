@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.4.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.1397655dca6c2f18c1ee5ace5b26d762.js"
+  "/precache-manifest.dbdc3294836a5d133d2872b209185a3f.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "tickets"});
