@@ -1,10 +1,12 @@
 <template>
   <div id="app">
     <router-view/>
-    <div id="nav">
+    <!-- 
+      <div id="nav">
       <router-link to="/">Scanner</router-link> |
       <router-link to="/about">About</router-link>
-    </div> 
+    </div>  
+    -->
   </div>
 </template>
 
@@ -17,19 +19,19 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  padding-bottom: 15px;
+  // padding-bottom: 15px;
 }
-#nav {
-  padding: 30px;
-}
+// #nav {
+//   padding: 30px;
+// }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+// #nav a {
+//   font-weight: bold;
+//   color: #2c3e50;
+// }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+// #nav a.router-link-exact-active {
+//   color: #42b983;
+// }
 </style>
 
