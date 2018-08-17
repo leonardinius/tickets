@@ -5,6 +5,7 @@ install:
   - yarn install
 
 script:
+  # AUTH_TOKEN is a secure environment variable to access Firebase stored data
   - env AUTH_TOKEN=${AUTH_TOKEN} python ./refresh-ids.py
   - yarn run build
   - sed -i -r 's/(src|href)=\//\1=/g' dist/index.html
@@ -12,10 +13,12 @@ script:
 cache: yarn
 
 deploy:
+  # @andrey - should be moved to scp to our hosted server
   provider: pages
   local-dir: dist
   target-branch: gh-pages
   skip-cleanup: true
+  # GITHUB_TOKEN is a secure environment variable to deploy to user Github Pages
   github-token: $GITHUB_TOKEN
   keep-history: true
   on:
