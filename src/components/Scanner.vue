@@ -1,5 +1,6 @@
 <template>
   <QrcodeReader
+    id="qr"
     :paused='paused'
     :track='repaintLocation'
     @decode='onDecode'
