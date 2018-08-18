@@ -30,8 +30,6 @@ export default {
           this.$emit('error', 'Constraints don\'t match any installed camera. Did you asked for the front camera although there is none?');
         } else {
           this.$emit('error', `UNKNOWN ERROR: ${error.message}`);
-
-          console.error(error);
         }
       } finally {
         this.loading = false;
