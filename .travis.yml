@@ -7,8 +7,6 @@ install:
 script:
   # AUTH_TOKEN is a secure environment variable to access Firebase stored data
   - env AUTH_TOKEN=${AUTH_TOKEN} python ./refresh-ids.py
-  - wc -l ./src/data/tickets.json
-  - bc
   - yarn run build
   - sed -i -r 's/(src|href)=\//\1=/g' dist/index.html
 
