@@ -11,10 +11,10 @@
  * See https://goo.gl/2aRDsh
  */
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.4.1/workbox-sw.js");
+importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.f6d3ceb48e2dc34f1ee66ce822c1a0fd.js"
+  "/precache-manifest.ec9f6e29c532e0d7c8b52a62d7375cd8.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "tickets"});
