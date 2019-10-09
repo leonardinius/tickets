@@ -19,7 +19,7 @@ def main():
             errors += 1
             continue
 
-        if doc['product'] != 'DT_RIX_18':
+        if doc['product'] != 'DT_RIX_19':
             continue
 
         if 'tickets' not in doc:
