@@ -1,5 +1,5 @@
 <template>
-  <QrcodeReader
+  <qrcode-stream
     id="qr"
     :paused='paused'
     :track='repaintLocation'
@@ -9,11 +9,11 @@
     <div class='content'>{{ content }}</div>
 
     <LoadingIndicator v-show='loading' />
-  </QrcodeReader>
+  </qrcode-stream>
 </template>
 
 <script>
-import { QrcodeReader } from 'vue-qrcode-reader'
+import {  QrcodeStream } from 'vue-qrcode-reader'
 import InitHandler from '@/mixins/InitHandler'
 
 import databaseDumpTicketIds from '@/data/tickets.json'
@@ -70,7 +70,7 @@ const dumpTicketsData = Object.freeze((() => {
 
 export default {
   name: 'Scanner',
-  components: { QrcodeReader },
+  components: { QrcodeStream },
 
   mixins: [ InitHandler ],
 
